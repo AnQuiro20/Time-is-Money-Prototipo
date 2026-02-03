@@ -1,0 +1,280 @@
+:root {
+            --bg: #0f1221;
+            --panel: #151936;
+            --panel-2: #1b2148;
+            --text: #ecf0ff;
+            --muted: #b9c0ff;
+            --accent: #7c8cff;
+            --accent-2: #4dd4b0;
+            --danger: #ff6b6b;
+            --warn: #ffb84d;
+            --ok: #7ee081;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(1200px 800px at 100% -20%, #1b2148 0%, #0f1221 60%) fixed;
+            color: var(--text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            backdrop-filter: saturate(130%) blur(8px);
+            background: linear-gradient(180deg, rgba(10, 12, 26, .9), rgba(10, 12, 26, .4));
+            border-bottom: 1px solid #252a5b;
+            box-shadow: var(--shadow);
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+        }
+
+        .title .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #0a0d1f;
+            font-weight: 800;
+        }
+
+        .title h1 {
+            font-size: 22px;
+            margin: 0
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: -6px
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            gap: 18px;
+            padding: 22px 0;
+            grid-template-columns: 1.1fr 1fr;
+        }
+
+        @media (max-width:960px) {
+            .grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--panel), var(--panel-2));
+            border: 1px solid #242a5a;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 0 0 12px 0;
+            color: #f5f7ff
+        }
+
+        .card .content {
+            padding: 18px
+        }
+
+        /* Forms */
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+
+        input,
+        select,
+        button,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #2b3170;
+            background: #0f1228;
+            color: var(--text);
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent)
+        }
+
+        .row {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 1fr 1fr
+        }
+
+        @media (max-width:600px) {
+            .row {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .btn {
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform .05s ease
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #6b79ff);
+            border: 0
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px dashed #2b3170;
+            color: var(--muted)
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            border: 0
+        }
+
+        /* Info badges */
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #0f1433;
+            border: 1px solid #25307a;
+            color: var(--muted)
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px
+        }
+
+        th {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: left;
+            padding: 0 10px
+        }
+
+        td {
+            background: #0c1028;
+            border: 1px solid #222a61;
+            border-left-width: 3px;
+            padding: 12px 10px
+        }
+
+        td:first-child {
+            border-radius: 10px 0 0 10px
+        }
+
+        td:last-child {
+            border-radius: 0 10px 10px 0
+        }
+
+        tr[data-cat="Deseos"] td {
+            border-left-color: #a06bff
+        }
+
+        tr[data-cat="Necesidades"] td {
+            border-left-color: #4dd4b0
+        }
+
+        tr[data-cat="Trabajo"] td {
+            border-left-color: #ffb84d
+        }
+
+        .table-tools {
+            display: flex;
+            gap: 8px
+        }
+
+        /* Progress */
+        .progress {
+            height: 14px;
+            background: #101430;
+            border-radius: 999px;
+            border: 1px solid #27307a;
+            overflow: hidden
+        }
+
+        .progress>div {
+            height: 100%;
+            width: 0
+        }
+
+        .progress .used {
+            background: linear-gradient(90deg, #ff7a7a, #ffb84d)
+        }
+
+        .progress .saved {
+            background: linear-gradient(90deg, #4dd4b0, #7ee081)
+        }
+
+        /* Chart */
+        canvas {
+            width: 100%;
+            height: 220px;
+            display: block;
+            background: #0b1026;
+            border: 1px solid #222a61;
+            border-radius: 14px
+        }
+
+        /* Footer */
+        footer {
+            color: #8c94d9;
+            font-size: 12px;
+            opacity: .9;
+            padding: 18px 0 28px
+        }
+
+        a {
+            color: #9fb3ff
+        }

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Time is Money — Prototipo</title>
+    <link rel="stylesheet" href="app.css" />
+</head>
+
+<body>
+    <header>
+        <div class="wrap">
+            <div class="title">
+                <div class="logo">⏳</div>
+                <div>
+                    <h1>Time is Money — Prototipo</h1>
+                    <div class="subtitle">Convierte tus gastos en <strong>tiempo de trabajo</strong> y visualiza tu mes
+                        en horas ⏱️</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section class="grid">
+            <!-- Columna izquierda -->
+            <div class="stack">
+                <div class="card">
+                    <div class="content">
+                        <h2>1) Tu valor del tiempo</h2>
+                        <p class="pill">💡 Fórmula: <code>minutos = monto / tarifa_hora × 60</code></p>
+                        <div class="row" style="margin-top:12px">
+                            <div>
+                                <label>Tarifa por hora (₡ / $)</label>
+                                <input id="rate" type="number" min="0" step="0.01" placeholder="Ej: 3000 CRC o 6 USD" />
+                            </div>
+                            <div>
+                                <label>Moneda</label>
+                                <select id="currency">
+                                    <option value="CRC">CRC ₡</option>
+                                    <option value="USD">USD $</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <label>Horas laborales por semana</label>
+                                <input id="hoursPerWeek" type="number" min="1" max="80" step="1" placeholder="Ej: 40" required />
+                            </div>
+                            <div>
+                                <label>Ajuste por impuestos (13% fijo)</label>
+                                <input id="taxAdj" type="number" value="13" disabled min="0" max="100" step="1" placeholder="13 fijo" />
+                            </div>
+                        </div>
+                        <div class="actions" style="margin-top:10px">
+                            <button class="btn btn-primary" id="savePrefs">Guardar preferencias</button>
+                            <button class="btn btn-ghost" id="resetPrefs">Restablecer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content">
+                        <h2>2) Registrar gasto → ver tiempo</h2>
+                        <div class="row">
+                            <div>
+                                <label>Descripción</label>
+                                <input id="desc" placeholder="Café, Uber, Netflix…" />
+                            </div>
+                            <div>
+                                <label>Monto (<span id="curLabel">CRC</span>)</label>
+                                <input id="amount" type="number" min="0" step="0.01" placeholder="0.00" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <label>Categoría</label>
+                                <select id="category">
+                                    <option>Deseos</option>
+                                    <option>Necesidades</option>
+                                    <option>Trabajo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>Fecha</label>
+                                <input id="date" type="date" />
+                            </div>
+                        </div>
+                        <div class="actions" style="margin-top:10px">
+                            <button class="btn btn-primary" id="addExp">Agregar gasto</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content">
+                        <h2>Gastos del mes (conversión a tiempo)</h2>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Descripción</th>
+                                        <th>Monto</th>
+                                        <th>Equivalente en tiempo</th>
+                                        <th>Categoría</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="stack">
+                <div class="card">
+                    <div class="content">
+                        <h2>Cartera</h2>
+                        <div class="row">
+                            <div>
+                                <label>Dinero en cartera (<span id="curLabelWallet">CRC</span>)</label>
+                                <input id="walletAmount" type="number" min="0" step="0.01" placeholder="Ej: 100000" />
+                            </div>
+                            <div>
+                                <label>Equivalente en tiempo</label>
+                                <input id="walletTime" disabled />
+                            </div>
+                        </div>
+                        <div class="actions" style="margin-top:10px">
+                            <button class="btn btn-primary" id="saveWallet">Guardar cartera</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <h2>3 Meta mensual (tiempo)</h2>
+                        <div class="row">
+                            <div>
+                                <label>Nombre de la meta</label>
+                                <input id="goalName" placeholder="Ej: Ahorrar 10 horas de vida" />
+                            </div>
+                            <div>
+                                <label>Presupuesto de tiempo (horas/mes)</label>
+                                <input id="timeBudget" type="number" min="1" step="0.5" placeholder="Ej: 20" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <label>Equivalente en dinero (<span id="curLabelGoal">CRC</span>)</label>
+                                <input id="goalBudgetMoney" disabled />
+                            </div>
+                        </div>
+                        <div class="actions" style="margin-top:10px">
+                            <button class="btn btn-primary" id="saveGoal">Guardar meta</button>
+                        </div>
+                        <div style="margin-top:16px">
+                            <div class="pill" id="goalLabel">Sin meta aún</div>
+                            <div class="progress" style="margin-top:10px">
+                                <div class="used" id="progressUsed"></div>
+                            </div>
+                            <div
+                                style="display:flex; justify-content:space-between; font-size:12px; margin-top:6px; color:var(--muted)">
+                                <span id="usedTime">0h usadas</span>
+                                <span id="remainTime">0h restantes</span>
+                            </div>
+                            <div id="goalOverWrap" style="display:none; margin-top:12px">
+                                <div class="progress" style="height:10px; background:#2a0f1a">
+                                    <div id="goalOverBar" class="used" style="height:10px; width:0%; background:linear-gradient(90deg,#ff6b6b,#ff996b)"></div>
+                                </div>
+                                <div style="font-size:12px; margin-top:6px; color:#ffb3b3">
+                                    Excedente de meta: <span id="goalOverLabel">0h</span>
+                                </div>
+                            </div>
+                            <div id="weeklyOverWrap" style="display:none; margin-top:12px">
+                                <div class="progress" style="height:10px; background:#2a0f1a">
+                                    <div id="weeklyOverBar" class="used" style="height:10px; width:0%; background:linear-gradient(90deg,#ff6b6b,#ff996b)"></div>
+                                </div>
+                                <div style="font-size:12px; margin-top:6px; color:#ffb3b3">
+                                    Excedente semanal: <span id="weeklyOverLabel">0h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content">
+                        <h2>Tiempo por categoría</h2>
+                        <canvas id="chart" height="220"></canvas>
+                        <div style="display:flex; gap:8px; margin-top:10px">
+                            <span class="pill">Deseos</span>
+                            <span class="pill">Necesidades</span>
+                            <span class="pill">Trabajo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="content">
+                        <h2>Resumen rápido</h2>
+                        <div class="row">
+                            <div>
+                                <label>Tiempo total invertido (mes)</label>
+                                <input id="sumTime" disabled />
+                            </div>
+                            <div>
+                                <label>Promedio por gasto</label>
+                                <input id="avgTime" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            Hecho para prototipar un proceso de <strong>diseño de software</strong>. Datos guardados en tu navegador
+            (localStorage). — <a href="#" id="exportJson">Exportar datos</a> • <a href="#" id="importJson">Importar</a>
+        </footer>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
+
